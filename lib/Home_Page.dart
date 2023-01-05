@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+
+  const HomePage();
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+   TextEditingController test1 = TextEditingController(text: "");
+   TextEditingController test2 = TextEditingController(text: "");
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -47,8 +50,30 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       child: Column(
                         children: [
-                          TextField(),
-                          TextField()
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: TextField(
+                                  controller: test1,
+                                )),
+                                ElevatedButton(onPressed: (){}, child: Container(child: Text("Enviar"),))
+                              
+                            ],
+                          ),
+                           Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: TextField(
+                                  controller: test2,
+                                )),
+                                ElevatedButton(onPressed: (){
+                                  test1;
+                                }, child: Container(child: Text("Enviar"),))
+                              
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -60,9 +85,32 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
         ),
         body: ListView(
+          children: [
+            Text("fds"),
+            Text("fdfd")
+          ],
           
         ),
        ),
     );
   }
 }
+// class List extends StatefulWidget {
+//   final String test1;
+//   const List(this.test1);
+
+//   @override
+//   State<List> createState() => _ListState();
+// }
+
+// class _ListState extends State<List> {
+//   @override
+//   Widget build(BuildContext context) {
+//     final String test1;
+//     return ListView(
+//       children: [
+//         Text(test1)
+//       ],
+//     );
+//   }
+// }
