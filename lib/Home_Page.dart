@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp_fake_conversations/database/Peoples.dart';
+import 'package:whatsapp_fake_conversations/database/hive_data.dart';
+
+import 'package:intl/intl.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -12,8 +16,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
    TextEditingController test1 = TextEditingController(text: "");
    TextEditingController test2 = TextEditingController(text: "");
+    final HiveData hiveData = const HiveData();
+  List<People> peopledata = [];
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  Future<void> getData() async {
+    peopledata = await hiveData.contact;
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    
+    String FechaActual = DateFormat("dd/MM/yyyy HH:mm", 'es_ES').format(now);
     return DefaultTabController(
       initialIndex: 0,
       length: 5,
@@ -41,9 +63,10 @@ class _HomePageState extends State<HomePage> {
               BottomNavigationBarItem(
                   icon:  GestureDetector(onTap: (){
                       showModalBottomSheet(
-                         //isScrollControlled: true,
+                         
                 context: context,
                 builder: (BuildContext builder) {
+                  
                   return SizedBox(
                     width: 100,
                     height: 100,
@@ -57,7 +80,12 @@ class _HomePageState extends State<HomePage> {
                                 child: TextField(
                                   controller: test1,
                                 )),
-                                ElevatedButton(onPressed: (){}, child: Container(child: Text("Enviar"),))
+                                ElevatedButton(onPressed: ()async {
+                          await hiveData.saveDataMoney(
+                            People(datas1: test1.text, datas2: "", datas3: FechaActual, datas4: "", datas5: "")
+                          );
+                          await getData();
+                        }, child: Container(child: Text("PRO1"),))
                               
                             ],
                           ),
@@ -68,9 +96,11 @@ class _HomePageState extends State<HomePage> {
                                 child: TextField(
                                   controller: test2,
                                 )),
-                                ElevatedButton(onPressed: (){
-                                  test1;
-                                }, child: Container(child: Text("Enviar"),))
+                                ElevatedButton(onPressed: ()async{
+                                  await hiveData.saveDataMoney(People(datas1: "", datas2: test2.text, datas3: FechaActual, datas4: "", datas5: ""));
+                                
+                                  await getData();
+                                }, child: Container(child: Text("PRO2"),))
                               
                             ],
                           ),
@@ -84,33 +114,38 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           elevation: 0,
         ),
-        body: ListView(
-          children: [
-            Text("fds"),
-            Text("fdfd")
-          ],
-          
+        body: ListView.builder(
+          itemCount: peopledata.length,
+          itemBuilder: (context, index) {
+            return Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              margin: EdgeInsets.all(10),
+              elevation: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(peopledata[index].datas1),
+                      Text(peopledata[index].datas2),
+                     
+                    ],
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        await hiveData.deleteDataMoneyIndex(index);
+                        await getData();
+                      },
+                      child: Icon(Icons.delete))
+                      ,Text(peopledata[index].datas3)
+                ],
+              ),
+            );
+          },
         ),
        ),
     );
   }
 }
-// class List extends StatefulWidget {
-//   final String test1;
-//   const List(this.test1);
-
-//   @override
-//   State<List> createState() => _ListState();
-// }
-
-// class _ListState extends State<List> {
-//   @override
-//   Widget build(BuildContext context) {
-//     final String test1;
-//     return ListView(
-//       children: [
-//         Text(test1)
-//       ],
-//     );
-//   }
-// }
