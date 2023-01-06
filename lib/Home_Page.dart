@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     
-    String FechaActual = DateFormat("dd/MM/yyyy HH:mm", 'es_ES').format(now);
+    String FechaActual = DateFormat("HH:mm", 'es_ES').format(now);
     return DefaultTabController(
       initialIndex: 0,
       length: 5,
@@ -117,30 +117,36 @@ class _HomePageState extends State<HomePage> {
         body: ListView.builder(
           itemCount: peopledata.length,
           itemBuilder: (context, index) {
-            return Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              margin: EdgeInsets.all(10),
-              elevation: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(peopledata[index].datas1),
-                      Text(peopledata[index].datas2),
-                     
-                    ],
+            return Padding(
+              padding: const EdgeInsets.only(left: 100),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                margin: EdgeInsets.all(10),
+                elevation: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                  SizedBox(
+                    height: 30,
+                    child: Row(
+                      
+                      children: [
+                        Text(peopledata[index].datas1),
+                        Text(FechaActual)
+                      ],
+                    ),
                   ),
-                  ElevatedButton(
-                      onPressed: () async {
-                        await hiveData.deleteDataMoneyIndex(index);
-                        await getData();
-                      },
-                      child: Icon(Icons.delete))
-                      ,Text(peopledata[index].datas3)
-                ],
+                  Text(peopledata[index].datas2),
+                    // ElevatedButton(
+                    //     onPressed: () async {
+                    //       await hiveData.deleteDataMoneyIndex(index);
+                    //       await getData();
+                    //     },
+                    //     child: Icon(Icons.delete))
+                    //     ,Text(peopledata[index].datas3)
+                  ],
+                ),
               ),
             );
           },
