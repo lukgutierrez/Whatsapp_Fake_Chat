@@ -20,7 +20,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(primaryColor: Color(0xFFF003156)),
+      
+        theme: ThemeData(primaryColor: Color(0xFFF105950)),
         debugShowCheckedModeBanner: false,
         title: 'BANK MACRO',
         localizationsDelegates: [

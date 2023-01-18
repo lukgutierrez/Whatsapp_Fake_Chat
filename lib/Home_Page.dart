@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
       initialIndex: 0,
       length: 5,
       child: Scaffold(
+        
          bottomNavigationBar: BottomNavigationBar(items: [
               BottomNavigationBarItem(
                   label: "",
@@ -112,6 +113,12 @@ class _HomePageState extends State<HomePage> {
                     child: Icon(Icons.favorite, color: Colors.black)), label: ""),
             ]),
         appBar: AppBar(
+          actions: [
+            IconButton(onPressed: (){}, icon: Icon(Icons.movie)),
+            IconButton(onPressed: (){}, icon: Icon(Icons.call)),
+            IconButton(onPressed: (){}, icon: Icon(Icons.more_vert)),
+          ],
+          backgroundColor: Color(0xFFF105950),
           elevation: 0,
         ),
         body: ListView.builder(
